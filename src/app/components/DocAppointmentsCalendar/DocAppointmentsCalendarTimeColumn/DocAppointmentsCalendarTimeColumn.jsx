@@ -6,7 +6,7 @@ export const DocAppointmentsCalendarTimeColumn = ({ hours }) => {
             {/* Empty space for alignment with day headers */}
             <div className="h-12 bg-gray-300"></div>
             {hours.map((hour) => (
-                <div key={hour} className="h-24  flex items-center justify-center border-b">
+                <div key={hour} className="h-20 flex items-center justify-center border-b">
                     {hour}:00
                 </div>
             ))}

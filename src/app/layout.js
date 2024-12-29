@@ -14,9 +14,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={roboto.className}>
-        <div className="h-screen flex">
+        <div className="flex">
         <DocSideBar />
-        <div className="w-full bg-bodyBg px-10 py-12">
+        <div className="w-full bg-bodyBg px-10 py-12 ml-64">
           {children}
         </div>
         </div>

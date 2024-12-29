@@ -11,7 +11,7 @@ export const DocAppointmentsCalendarSlots = ({ day, hours, dayIndex, getAppointm
 
             {/* Hourly Slots */}
             {hours.map((hour) => (
-                <div key={hour} className="border-b relative h-24">
+                <div key={hour} className="border-b relative h-20">
                     {/* Appointments */}
                     {getAppointmentsForSlot(day, hour).map((appt, apptIndex) => {
                         // Calculate the duration and style accordingly

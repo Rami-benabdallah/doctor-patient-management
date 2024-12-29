@@ -11,12 +11,12 @@ export const DocSideBar = ({ }) => {
   const pathname = usePathname();
 
   return (
-    <div className="bg-sideBarBg h-screen p-4 transition-all duration-300 ease-in-out border-r border-gray-300 shadow-md w-64">
+    <div className="bg-sideBarBg h-screen fixed p-4 transition-all duration-300 ease-in-out border-r border-gray-300 shadow-md w-64">
       <div className='h-full flex flex-col items-center'>
         <div>
           LOGO
         </div>
-        <div className='mt-auto mb-auto flex flex-col items-start gap-6'>
+        <div className='mt-44 flex flex-col items-start gap-6'>
           {iconButtons.map((button, index) => (
             <Link key={index} href={button.href}>
               <DocIconButton
