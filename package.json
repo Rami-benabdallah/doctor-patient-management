@@ -1,9 +1,7 @@
 {
   "name": "docto",
   "version": "0.1.0",
-  "private": true,
   "scripts": {
-    "preinstall": "aws codeartifact login --tool npm --repository npm-store --domain vocanto --domain-owner 915981146857 && aws codeartifact login --tool npm --repository a4 --domain vocanto --domain-owner 915981146857",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
