@@ -1,7 +1,44 @@
-import React from 'react';
+"use client"
+import React, { useEffect, useRef, useState } from 'react';
 import { format } from 'date-fns';
 
+import { DocAppointmentsCalendarSlotsInfo } from './DocAppointmentsCalendarSlotsInfo/DocAppointmentsCalendarSlotsInfo';
+
 export const DocAppointmentsCalendarSlots = ({ day, hours, dayIndex, getAppointmentsForSlot, }) => {
+    const [modal, setModal] = useState({ isVisible: false, details: null, position: { top: 0, left: 0 } });
+    const modalRef = useRef(null);
+
+    const handleAppointmentClick = (e, details) => {
+        const rect = e.target.getBoundingClientRect();
+        setModal({
+            isVisible: true,
+            details,
+            position: {
+                top: rect.top + window.scrollY + rect.height / 2,
+                left: rect.left + window.scrollX + rect.width + 10,
+            },
+        });
+    };
+
+    const closeModal = () => {
+        setModal({ isVisible: false, details: null, position: { top: 0, left: 0 } });
+    };
+
+    const handleOutsideClick = (event) => {
+        if (modalRef.current && !modalRef.current.contains(event.target)) {
+            closeModal();
+        }
+    };
+
+    useEffect(() => {
+        if (modal.isVisible) {
+            document.addEventListener('mousedown', handleOutsideClick);
+        }
+        return () => {
+            document.removeEventListener('mousedown', handleOutsideClick);
+        };
+    }, [modal.isVisible]);
+
     return (
         <div key={dayIndex} className="col-span-1 border-r">
             {/* Day Header */}
@@ -28,7 +65,7 @@ export const DocAppointmentsCalendarSlots = ({ day, hours, dayIndex, getAppointm
                                     top: `${(startTime.getMinutes() / 60) * 5}rem`, // Adjust start position for minutes
                                     zIndex: 10 + apptIndex, // Ensure stacking order for overlapping appointments
                                 }}
-                                onClick={() => console.log(`Clicked on appointment: ${appt.details}`)} // Example onClick handler
+                                onClick={(e) => handleAppointmentClick(e, appt.details)}
                             >
                                 {appt.details}
                             </div>
@@ -36,6 +73,8 @@ export const DocAppointmentsCalendarSlots = ({ day, hours, dayIndex, getAppointm
                     })}
                 </div>
             ))}
+
+            <DocAppointmentsCalendarSlotsInfo modal={modal} closeModal={closeModal} modalRef={modalRef} />
         </div>
     );
 };
