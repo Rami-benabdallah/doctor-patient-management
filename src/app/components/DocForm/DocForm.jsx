@@ -8,12 +8,14 @@ import PropTypes from 'prop-types';
 import { DocInput } from '../DocInputs/DocInput/DocInput';
 import { DocInputArea } from '../DocInputs/DocInputArea/DocInputArea';
 import { DocInputLabel } from '../DocInputs/DocInputLabel/DocInputLabel';
+import { DocInputCheckbox } from '../DocInputs/DocInputCheckbox/DocInputCheckbox';
 import { DocButton } from '../DocButton/DocButton';
 
 const fieldComponents = {
     text: DocInput,
     description: DocInputArea,
     labels: DocInputLabel,
+    checkbox: DocInputCheckbox,
 };
 
 const generateValidationSchema = (fields) => {
@@ -82,7 +84,7 @@ export const DocForm = ({ fields, onSubmit, onCancel }) => {
     } = useForm({
         resolver: yupResolver(validationSchema),
         defaultValues: fields.reduce((acc, field) => {
-            acc[field.name] = '';
+            acc[field.name] = field.value || '';
             return acc;
         }, {}),
     });

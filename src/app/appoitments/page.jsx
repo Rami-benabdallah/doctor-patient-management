@@ -9,13 +9,18 @@ import { DocForm } from '../components/DocForm/DocForm';
 
 import DocPlus from '../assets/icons/DocPlus';
 
+const appointments = [
+    { date: "2024-12-30", time: "10:00", endTime: "12:00", details: "Meeting with Dr. Smith" },
+    { date: "2024-12-31", time: "15:00", endTime: "16:30", details: "Follow-up with patient John" },
+];
+
 const dailyAddTaskFields = [
     {
         type: 'text',
-        id: 'task-title',
-        name: 'task-title',
-        label: 'Title',
-        placeholder: 'Enter the title',
+        id: 'patient-name',
+        name: 'patient-name',
+        label: 'Patient name',
+        placeholder: 'Enter the Patient name',
         validation: {
             required: true,
             minLength: 3,
@@ -24,10 +29,10 @@ const dailyAddTaskFields = [
     },
     {
         type: 'text',
-        id: 'task-description',
-        name: 'task-description',
-        label: 'Description',
-        placeholder: 'Enter the description',
+        id: 'appointment-details',
+        name: 'appointment-details',
+        label: 'Details',
+        placeholder: 'Enter the appointment details',
         validation: {
             required: true,
         },
@@ -42,7 +47,6 @@ const dailyAddTaskFields = [
             required: true,
             minValues: 2,
         },
-
     },
 ];
 
@@ -72,7 +76,7 @@ const AppointmentsPage = () => {
                     onClick={() => openModal('add-new-appointment')}
                 />
             </div>
-            <DocAppointmentsCalendar />
+            <DocAppointmentsCalendar appointments={appointments} />
             <DocModal
                 name="add-new-appointment"
                 title="Add New Appointment"
