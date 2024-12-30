@@ -5,11 +5,40 @@ import { useModal } from '@/app/hooks/useModal';
 import { DocButton } from '../components/DocButton/DocButton';
 import { DocAppointmentsCalendar } from '../components/DocAppointmentsCalendar/DocAppointmentsCalendar';
 import { DocModal } from '../components/DocModal/DocModal';
+import { DocForm } from '../components/DocForm/DocForm';
 
 import DocPlus from '../assets/icons/DocPlus';
 
+const dailyAddTaskFields = [
+    {
+        type: 'text',
+        id: 'task-title',
+        name: 'task-title',
+        label: 'Title',
+        placeholder: 'Enter the title',
+    },
+    {
+        type: 'description',
+        id: 'task-description',
+        name: 'task-description',
+        label: 'Description',
+        placeholder: 'Enter the description',
+    },
+    {
+        type: 'labels',
+        id: 'task-labels',
+        name: 'task-labels',
+        label: 'Labels',
+        placeholder: 'Enter the labels',
+    },
+];
+
 const AppointmentsPage = () => {
     const { isModalOpen, openModal, closeModal } = useModal();
+
+    const handleFormSubmit = (data) => {
+        console.log('Form Submitted', data);
+      };
 
     return (
         <div className='flex flex-col gap-10'>
@@ -40,7 +69,7 @@ const AppointmentsPage = () => {
                 showSecondaryButton={false}
                 secondaryButtonLabel='Cancel'
             >
-                xxxx
+                <DocForm fields={dailyAddTaskFields} onSubmit={handleFormSubmit} onCancel={() => closeModal('add-new-appointment')} />
             </DocModal>
         </div>
     );
