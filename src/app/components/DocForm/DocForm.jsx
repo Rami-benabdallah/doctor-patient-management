@@ -16,17 +16,62 @@ const fieldComponents = {
     labels: DocInputLabel,
 };
 
-const validationSchema = Yup.object().shape({
-    'task-title': Yup.string().required('Title is required'),
-    'task-description': Yup.string().required('Description is required'),
-    'task-labels': Yup.array()
-        .of(Yup.string().min(2, 'Each label must be at least 2 characters').max(20, 'Each label can be up to 20 characters'))
-        .min(1, 'At least one label is required')
-        .max(5, 'You can add up to 5 labels')
-        .required('Labels are required'),
-});
+const generateValidationSchema = (fields) => {
+    const schema = fields.reduce((acc, field) => {
+        let validator;
+
+        switch (field.type) {
+            case 'text':
+                validator = Yup.string();
+                if (field.validation.required) {
+                    validator = validator.required(`${field.label} is required`);
+                }
+                if (field.validation.minLength) {
+                    validator = validator.min(
+                        field.validation.minLength,
+                        `${field.label} must be at least ${field.validation.minLength} characters`
+                    );
+                }
+                if (field.validation.maxLength) {
+                    validator = validator.max(
+                        field.validation.maxLength,
+                        `${field.label} must be at most ${field.validation.maxLength} characters`
+                    );
+                }
+                break;
+
+            case 'labels':
+                validator = Yup.array();
+                if (field.validation.required) {
+                    validator = validator.required(`${field.label} is required`);
+                }
+                if (field.validation.minValues) {
+                    validator = validator.min(
+                        field.validation.minValues,
+                        `${field.label} must have at least ${field.validation.minValues} items`
+                    );
+                }
+                if (field.validation.maxValues) {
+                    validator = validator.max(
+                        field.validation.maxValues,
+                        `${field.label} can have at most ${field.validation.maxValues} items`
+                    );
+                }
+                break;
+
+            default:
+                validator = Yup.mixed();
+        }
+
+        acc[field.name] = validator;
+        return acc;
+    }, {});
+
+    return Yup.object().shape(schema);
+};
 
 export const DocForm = ({ fields, onSubmit, onCancel }) => {
+    const validationSchema = generateValidationSchema(fields);
     const {
         register,
         handleSubmit,
@@ -69,7 +114,7 @@ export const DocForm = ({ fields, onSubmit, onCancel }) => {
                             label={field.label}
                             placeholder={field.placeholder}
                             register={register}
-                            setValue={setValue} // Pass setValue
+                            setValue={setValue}
                             getValues={getValues}
                         />
                         {errors[field.name] && (
@@ -86,7 +131,7 @@ export const DocForm = ({ fields, onSubmit, onCancel }) => {
                     padding="py-2 px-4"
                     rounded="rounded-md"
                     onClick={() => {
-                        reset(); // Reset form when cancel is clicked
+                        reset();
                         if (onCancel) onCancel();
                     }}
                 />

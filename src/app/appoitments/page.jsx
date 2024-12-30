@@ -16,13 +16,21 @@ const dailyAddTaskFields = [
         name: 'task-title',
         label: 'Title',
         placeholder: 'Enter the title',
+        validation: {
+            required: true,
+            minLength: 3,
+            maxLength: 50,
+        },
     },
     {
-        type: 'description',
+        type: 'text',
         id: 'task-description',
         name: 'task-description',
         label: 'Description',
         placeholder: 'Enter the description',
+        validation: {
+            required: true,
+        },
     },
     {
         type: 'labels',
@@ -30,15 +38,21 @@ const dailyAddTaskFields = [
         name: 'task-labels',
         label: 'Labels',
         placeholder: 'Enter the labels',
+        validation: {
+            required: true,
+            minValues: 2,
+        },
+
     },
 ];
+
 
 const AppointmentsPage = () => {
     const { isModalOpen, openModal, closeModal } = useModal();
 
     const handleFormSubmit = (data) => {
         console.log('Form Submitted', data);
-      };
+    };
 
     return (
         <div className='flex flex-col gap-10'>
